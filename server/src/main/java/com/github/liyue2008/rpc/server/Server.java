@@ -36,6 +36,7 @@ public class Server {
         File tmpDirFile = new File(System.getProperty("java.io.tmpdir"));
         File file = new File(tmpDirFile, "simple_rpc_name_service.data");
         HelloService helloService = new HelloServiceImpl();
+//
         logger.info("创建并启动RpcAccessPoint...");
         try(RpcAccessPoint rpcAccessPoint = ServiceSupport.load(RpcAccessPoint.class);
             Closeable ignored = rpcAccessPoint.startServer()) {
