@@ -21,7 +21,7 @@ Apache Maven 3.3.9 (bb52d8502b132ec0a5a3f4c09453c07478323dc5; 2015-11-11T00:41:4
 ## 下载编译源代码
 
 ```bash
-$git clone git@github.com:liyue2008/simple-rpc-framework.git
+$git clone git@github.com:arthurJHM/simple-rpc.git
 $cd simple-rpc-framework
 $mvn package
 ```
