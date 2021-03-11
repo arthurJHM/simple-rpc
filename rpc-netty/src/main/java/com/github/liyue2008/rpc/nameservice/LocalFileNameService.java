@@ -46,7 +46,7 @@ public class LocalFileNameService implements NameService {
     }
 
     @Override
-    public void connect(URI nameServiceUri) {
+    public void connect(URI nameServiceUri) {//连接注册中心，在这里实际上是创建一个文件，将这个文件作为注册中心
         if(schemes.contains(nameServiceUri.getScheme())) {
             file = new File(nameServiceUri);
         } else {
@@ -95,16 +95,16 @@ public class LocalFileNameService implements NameService {
     @Override
     public URI lookupService(String serviceName) throws IOException {
         Metadata metadata;
-        try(RandomAccessFile raf = new RandomAccessFile(file, "rw");
-            FileChannel fileChannel = raf.getChannel()) {
-            FileLock lock = fileChannel.lock();
+        try(RandomAccessFile raf = new RandomAccessFile(file, "rw"); //打开文件
+            FileChannel fileChannel = raf.getChannel()) {//内部是懒汉模式，单例获得一个fileChannel
+            FileLock lock = fileChannel.lock();//访问注册中心必须加锁，而且这还是文件的读写
             try {
                 byte [] bytes = new byte[(int) raf.length()];
                 ByteBuffer buffer = ByteBuffer.wrap(bytes);
                 while (buffer.hasRemaining()) {
                     fileChannel.read(buffer);
                 }
-                metadata = bytes.length == 0? new Metadata(): SerializeSupport.parse(bytes);
+                metadata = bytes.length == 0? new Metadata(): SerializeSupport.parse(bytes);//从文件中读取到metadata服务信息
                 logger.info(metadata.toString());
             } finally {
                 lock.release();
@@ -115,7 +115,7 @@ public class LocalFileNameService implements NameService {
         if(null == uris || uris.isEmpty()) {
             return null;
         } else {
-            return uris.get(ThreadLocalRandom.current().nextInt(uris.size()));
+            return uris.get(ThreadLocalRandom.current().nextInt(uris.size())); //产生一个伪随机数，用来负载均衡
         }
     }
 }

@@ -71,7 +71,7 @@ public class RpcRequestHandler implements RequestHandler, ServiceProviderRegistr
 
     @Override
     public synchronized <T> void addServiceProvider(Class<? extends T> serviceClass, T serviceProvider) {
-        serviceProviders.put(serviceClass.getCanonicalName(), serviceProvider);
+        serviceProviders.put(serviceClass.getCanonicalName(), serviceProvider);//不是？就这？放到hashmap中就完事了？
         logger.info("Add service: {}, provider: {}.",
                 serviceClass.getCanonicalName(),
                 serviceProvider.getClass().getCanonicalName());

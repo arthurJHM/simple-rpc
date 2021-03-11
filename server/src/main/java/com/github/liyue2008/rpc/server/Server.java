@@ -44,7 +44,7 @@ public class Server {
             NameService nameService = rpcAccessPoint.getNameService(file.toURI());
             assert nameService != null;
             logger.info("向RpcAccessPoint注册{}服务...", serviceName);
-            URI uri = rpcAccessPoint.addServiceProvider(helloService, HelloService.class);
+            URI uri = rpcAccessPoint.addServiceProvider(helloService, HelloService.class);//这里的向RPCaccessPoint注册，都只是放在了本地的hashmap中
             logger.info("服务名: {}, 向NameService注册...", serviceName);
             nameService.registerService(serviceName, uri);
             logger.info("开始提供服务，按任何键退出.");

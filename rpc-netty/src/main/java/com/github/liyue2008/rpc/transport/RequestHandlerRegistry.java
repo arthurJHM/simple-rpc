@@ -38,7 +38,7 @@ public class RequestHandlerRegistry {
 
     private RequestHandlerRegistry() {
         Collection<RequestHandler> requestHandlers = ServiceSupport.loadAll(RequestHandler.class);
-        for (RequestHandler requestHandler : requestHandlers) {
+        for (RequestHandler requestHandler : requestHandlers) {//把所有的RequestHandler，比如RpcRequestHandler找出来之后，统统添加到hashmap中
             handlerMap.put(requestHandler.type(), requestHandler);
             logger.info("Load request handler, type: {}, class: {}.", requestHandler.type(), requestHandler.getClass().getCanonicalName());
         }

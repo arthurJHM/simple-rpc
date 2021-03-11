@@ -25,13 +25,13 @@ import java.util.Map;
  * Date: 2019/9/20
  */
 @SuppressWarnings("unchecked")
-public class SerializeSupport {
+public class SerializeSupport {//用来控制序列化和反序列化的接口
     private static final Logger logger = LoggerFactory.getLogger(SerializeSupport.class);
     private static Map<Class<?>/*序列化对象类型*/, Serializer<?>/*序列化实现*/> serializerMap = new HashMap<>();
     private static Map<Byte/*序列化实现类型*/, Class<?>/*序列化对象类型*/> typeMap = new HashMap<>();
 
     static {
-        for (Serializer serializer : ServiceSupport.loadAll(Serializer.class)) {
+        for (Serializer serializer : ServiceSupport.loadAll(Serializer.class)) {  //将所有的序列化器都加进serializermap中
             registerType(serializer.type(), serializer.getSerializeClass(), serializer);
             logger.info("Found serializer, class: {}, type: {}.",
                     serializer.getSerializeClass().getCanonicalName(),
@@ -70,7 +70,7 @@ public class SerializeSupport {
 
     }
 
-    public static <E> byte [] serialize(E  entry) {
+    public static <E> byte [] serialize(E  entry) {//序列化
         @SuppressWarnings("unchecked")
         Serializer<E> serializer = (Serializer<E>) serializerMap.get(entry.getClass());
         if(serializer == null) {

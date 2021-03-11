@@ -52,17 +52,17 @@ public class MetadataSerializer implements Serializer<Metadata> {
     }
 
     @Override
-    public void serialize(Metadata entry, byte[] bytes, int offset, int length) {
+    public void serialize(Metadata entry, byte[] bytes, int offset, int length) {//序列化
 
         ByteBuffer buffer = ByteBuffer.wrap(bytes, offset, length);
         buffer.putShort(toShortSafely(entry.size()));
 
-        entry.forEach((k,v) -> {
+        entry.forEach((k,v) -> {//对于每一个entry按照规则进行序列化
             byte [] keyBytes = k.getBytes(StandardCharsets.UTF_8);
             buffer.putShort(toShortSafely(keyBytes.length));
             buffer.put(keyBytes);
 
-            buffer.putShort(toShortSafely(v.size()));
+            buffer.putShort(toShortSafely(v.size()));//对entry的URI list中的每个URI进行
             for (URI uri : v) {
                 byte [] uriBytes = uri.toASCIIString().getBytes(StandardCharsets.UTF_8);
                 buffer.putShort(toShortSafely(uriBytes.length));
@@ -72,7 +72,7 @@ public class MetadataSerializer implements Serializer<Metadata> {
         });
     }
 
-    private int entrySize(Map.Entry<String, List<URI>> e) {
+    private int entrySize(Map.Entry<String, List<URI>> e) {//计算每个entry的size
         // Map entry:
         return Short.BYTES +       // Key string length:               2 bytes
                 e.getKey().getBytes().length +    // Serialized key bytes:   variable length
@@ -85,7 +85,7 @@ public class MetadataSerializer implements Serializer<Metadata> {
     }
 
     @Override
-    public Metadata parse(byte[] bytes, int offset, int length) {
+    public Metadata parse(byte[] bytes, int offset, int length) {//解析  反序列化
         ByteBuffer buffer = ByteBuffer.wrap(bytes, offset, length);
 
         Metadata metadata = new Metadata();

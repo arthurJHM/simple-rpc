@@ -45,7 +45,7 @@ public class NettyServer implements TransportServer {
     @Override
     public void start(RequestHandlerRegistry requestHandlerRegistry, int port) throws Exception {
         this.port = port;
-        this.requestHandlerRegistry = requestHandlerRegistry;
+        this.requestHandlerRegistry = requestHandlerRegistry; // //在这里绑定了requestHandler
         EventLoopGroup acceptEventGroup = newEventLoopGroup();
         EventLoopGroup ioEventGroup = newEventLoopGroup();
         ChannelHandler channelHandlerPipeline = newChannelHandlerPipeline();
