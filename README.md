@@ -1,7 +1,6 @@
-# 消息队列高手课：动手实现一个简单的RPC框架
-
-极客时间[《消息队列高手课》](https://time.geekbang.org/column/intro/212)案例篇《动手实现一个简单的RPC框架》示例源代码。
-
+# 一个简单的RPC框架
+通过该项目进行改进
+https://github.com/liyue2008/simple-rpc-framework
 ## 环境要求
 
 运行示例之前需要先安装：
