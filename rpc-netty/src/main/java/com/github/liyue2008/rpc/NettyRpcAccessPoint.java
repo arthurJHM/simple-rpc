@@ -46,7 +46,7 @@ public class NettyRpcAccessPoint implements RpcAccessPoint {
 
     @Override
     public <T> T getRemoteService(URI uri, Class<T> serviceClass) {
-        Transport transport = clientMap.computeIfAbsent(uri, this::createTransport);
+        Transport transport = clientMap.computeIfAbsent(uri, this::createTransport); //如果uri不存在的话，调用createTransport
         return stubFactory.createStub(transport, serviceClass);
     }
 

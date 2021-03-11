@@ -32,14 +32,14 @@ import java.util.concurrent.ExecutionException;
 public abstract class AbstractStub implements ServiceStub {
     protected Transport transport;
 
-    protected byte [] invokeRemote(RpcRequest request) {
+    protected byte [] invokeRemote(RpcRequest request) { //构造出来的代理类Stub实际调用的函数
         Header header = new Header(ServiceTypes.TYPE_RPC_REQUEST, 1, RequestIdSupport.next());
         byte [] payload = SerializeSupport.serialize(request);
-        Command requestCommand = new Command(header, payload);
+        Command requestCommand = new Command(header, payload);//构造requestCommand  payload是实际的经过序列化的请求  head包括rpc请求类型，版本号和请求的序号
         try {
-            Command responseCommand = transport.send(requestCommand).get();
-            ResponseHeader responseHeader = (ResponseHeader) responseCommand.getHeader();
-            if(responseHeader.getCode() == Code.SUCCESS.getCode()) {
+            Command responseCommand = transport.send(requestCommand).get();//通过transport请求发送 获得结果
+            ResponseHeader responseHeader = (ResponseHeader) responseCommand.getHeader();//解析header
+            if(responseHeader.getCode() == Code.SUCCESS.getCode()) {//解析headCode是不是success
                 return responseCommand.getPayload();
             } else {
                 throw new Exception(responseHeader.getError());

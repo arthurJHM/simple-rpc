@@ -32,13 +32,14 @@ public class Server {
     private static final Logger logger = LoggerFactory.getLogger(Server.class);
     public static void main(String [] args) throws Exception {
 
-        String serviceName = HelloService.class.getCanonicalName(); //获得com.github.liyue2008.rpc.hello.HelloService
-        File tmpDirFile = new File(System.getProperty("java.io.tmpdir"));//C:\Users\Arthur\AppData\Local\Temp
-        File file = new File(tmpDirFile, "simple_rpc_name_service.data");//C:\Users\Arthur\AppData\Local\Temp\simple_rpc_name_service.data
-        HelloService helloService = new HelloServiceImpl();
+        String serviceName = HelloService.class.getCanonicalName(); //获得类的全名，之后用来之后做注册用  com.github.liyue2008.rpc.hello.HelloService
+        File tmpDirFile = new File(System.getProperty("java.io.tmpdir"));//获得一个临时文件夹，之后做注册中心使用 C:\Users\Arthur\AppData\Local\Temp
+        File file = new File(tmpDirFile, "simple_rpc_name_service.data");//创建临时文件，用来做注册中心 C:\Users\Arthur\AppData\Local\Temp\simple_rpc_name_service.data
+        HelloService helloService = new HelloServiceImpl();//创建服务端的真正的执行代码的实例
 //
         logger.info("创建并启动RpcAccessPoint...");
-        try(RpcAccessPoint rpcAccessPoint = ServiceSupport.load(RpcAccessPoint.class);
+        try(RpcAccessPoint rpcAccessPoint = ServiceSupport.load(RpcAccessPoint.class);//通过SPI获得当前项目中的PpcAccessPointRPC框架对外提供的服务接口
+            // 相当于是使用rpc的服务接口 功能包括有启动rpc框架进行监听  服务端注册服务  获得注册中心 客户端获得远程服务  实现类是NettyRpcAccessPoint
             Closeable ignored = rpcAccessPoint.startServer()) {
             NameService nameService = rpcAccessPoint.getNameService(file.toURI());
             assert nameService != null;

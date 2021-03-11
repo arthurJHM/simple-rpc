@@ -60,7 +60,7 @@ public class NettyClient implements TransportClient {
 
     @Override
     public Transport createTransport(SocketAddress address, long connectionTimeout) throws InterruptedException, TimeoutException {
-        return new NettyTransport(createChannel(address, connectionTimeout), inFlightRequests);
+        return new NettyTransport(createChannel(address, connectionTimeout), inFlightRequests); //用chanel发送inFlightRequest
     }
 
     private synchronized Channel createChannel(SocketAddress address, long connectionTimeout) throws InterruptedException, TimeoutException {
