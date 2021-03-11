@@ -32,9 +32,9 @@ public class Server {
     private static final Logger logger = LoggerFactory.getLogger(Server.class);
     public static void main(String [] args) throws Exception {
 
-        String serviceName = HelloService.class.getCanonicalName();
-        File tmpDirFile = new File(System.getProperty("java.io.tmpdir"));
-        File file = new File(tmpDirFile, "simple_rpc_name_service.data");
+        String serviceName = HelloService.class.getCanonicalName(); //获得com.github.liyue2008.rpc.hello.HelloService
+        File tmpDirFile = new File(System.getProperty("java.io.tmpdir"));//C:\Users\Arthur\AppData\Local\Temp
+        File file = new File(tmpDirFile, "simple_rpc_name_service.data");//C:\Users\Arthur\AppData\Local\Temp\simple_rpc_name_service.data
         HelloService helloService = new HelloServiceImpl();
 //
         logger.info("创建并启动RpcAccessPoint...");

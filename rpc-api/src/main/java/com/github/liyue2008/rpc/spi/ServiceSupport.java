@@ -29,9 +29,14 @@ public class ServiceSupport {
     private final static Map<String, Object> singletonServices = new HashMap<>();
     public synchronized static <S> S load(Class<S> service) {
         return StreamSupport.
-                stream(ServiceLoader.load(service).spliterator(), false)
+                stream(ServiceLoader.load(service).spliterator(), false)  //原理：在ServiceLoader.load的时候，根据传入的接口类，遍历META-INF/services目录下的以该类命名的文件中的所有类，并实例化返回。
                 .map(ServiceSupport::singletonFilter)
                 .findFirst().orElseThrow(ServiceLoadException::new);
+        //ServiceLoader.load 就是SPI的核心
+        //创建一个接口文件
+        //在resources资源目录下创建META-INF/services文件夹
+        //在services文件夹中创建文件，以接口全名命名
+        //创建接口实现类
     }
     public synchronized static <S> Collection<S> loadAll(Class<S> service) {
         return StreamSupport.
@@ -44,7 +49,7 @@ public class ServiceSupport {
 
         if(service.getClass().isAnnotationPresent(Singleton.class)) {
             String className = service.getClass().getCanonicalName();
-            Object singletonInstance = singletonServices.putIfAbsent(className, service);
+            Object singletonInstance = singletonServices.putIfAbsent(className, service);//如果有过了，则返回第一次放入的这个值service  如果是第一次，则返回null
             return singletonInstance == null ? service : (S) singletonInstance;
         } else {
             return service;
