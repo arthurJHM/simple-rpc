@@ -33,6 +33,7 @@ import java.util.Map;
  * @author LiYue
  * Date: 2019/9/23
  */
+//这部分代码是这个 RPC 框架服务端最核心的部分
 @Singleton
 public class RpcRequestHandler implements RequestHandler, ServiceProviderRegistry {
     private static final Logger logger = LoggerFactory.getLogger(RpcRequestHandler.class);
@@ -48,7 +49,7 @@ public class RpcRequestHandler implements RequestHandler, ServiceProviderRegistr
             Object serviceProvider = serviceProviders.get(rpcRequest.getInterfaceName());
             if(serviceProvider != null) {
                 // 找到服务提供者，利用Java反射机制调用服务的对应方法
-                String arg = SerializeSupport.parse(rpcRequest.getSerializedArguments());
+                String arg = SerializeSupport.parse(rpcRequest.getSerializedArguments());//这是使用的变量
                 Method method = serviceProvider.getClass().getMethod(rpcRequest.getMethodName(), String.class);
                 String result = (String ) method.invoke(serviceProvider, arg);
                 // 把结果封装成响应命令并返回
@@ -71,7 +72,8 @@ public class RpcRequestHandler implements RequestHandler, ServiceProviderRegistr
 
     @Override
     public synchronized <T> void addServiceProvider(Class<? extends T> serviceClass, T serviceProvider) {
-        serviceProviders.put(serviceClass.getCanonicalName(), serviceProvider);//不是？就这？放到hashmap中就完事了？
+        serviceProviders.put(serviceClass.getCanonicalName(), serviceProvider);//这相当于这个服务端的可用服务列表，
+        // 当从注册中心拿到此服务端的地址，并且访问本服务端的时候，本服务端需要按照这个hash表找到相应的类
         logger.info("Add service: {}, provider: {}.",
                 serviceClass.getCanonicalName(),
                 serviceProvider.getClass().getCanonicalName());

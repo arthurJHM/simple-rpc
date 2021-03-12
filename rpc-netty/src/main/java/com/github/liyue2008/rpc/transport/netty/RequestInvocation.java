@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  * Date: 2019/9/20
  */
 @ChannelHandler.Sharable
-public class RequestInvocation extends SimpleChannelInboundHandler<Command> {
+public class RequestInvocation extends SimpleChannelInboundHandler<Command> {//
     private static final Logger logger = LoggerFactory.getLogger(RequestInvocation.class);
     private final RequestHandlerRegistry requestHandlerRegistry;
 
@@ -38,10 +38,11 @@ public class RequestInvocation extends SimpleChannelInboundHandler<Command> {
     }
 
     @Override
+//    请求数据的处理类 RequestInvocation 的 channelRead0 方法。
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Command request) throws Exception {
         RequestHandler handler = requestHandlerRegistry.get(request.getHeader().getType());
         if(null != handler) {
-            Command response = handler.handle(request);
+            Command response = handler.handle(request);//这里调用实际的RpcRequestHandler的handle函数
             if(null != response) {
                 channelHandlerContext.writeAndFlush(response).addListener((ChannelFutureListener) channelFuture -> {
                     if (!channelFuture.isSuccess()) {

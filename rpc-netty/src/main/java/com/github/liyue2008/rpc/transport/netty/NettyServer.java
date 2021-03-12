@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
  * @author LiYue
  * Date: 2019/9/20
  */
-public class NettyServer implements TransportServer {
+public class NettyServer implements TransportServer {//netty 的一些操作
     private static final Logger logger = LoggerFactory.getLogger(NettyServer.class);
     private int port;
     private EventLoopGroup acceptEventGroup;
@@ -78,7 +78,8 @@ public class NettyServer implements TransportServer {
     }
 
     private EventLoopGroup newEventLoopGroup() {
-        if (Epoll.isAvailable()) {
+        if (Epoll.isAvailable()) {//netty提供了方法Epoll.isAvailable()来判断是否可用epoll
+            // linux系统下使用SO_REUSEPORT特性，使得多个线程绑定同一个端口
             return new EpollEventLoopGroup();
         } else {
             return new NioEventLoopGroup();

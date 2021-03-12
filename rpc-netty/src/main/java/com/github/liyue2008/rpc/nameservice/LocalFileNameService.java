@@ -35,7 +35,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author LiYue
  * Date: 2019/9/20
  */
-public class LocalFileNameService implements NameService {
+public class LocalFileNameService implements NameService {//以文件为载体的注册中心
     private static final Logger logger = LoggerFactory.getLogger(LocalFileNameService.class);
     private static final Collection<String> schemes = Collections.singleton("file");
     private File file;
@@ -75,6 +75,9 @@ public class LocalFileNameService implements NameService {
                 } else {
                     metadata = new Metadata();
                 }
+                //如果 key 对应的 value 不存在，
+                // 则使用获取 mappingFunction 重新计算后的值，并保存为该 key 的 value，否则返回 value。
+                //在这里的意思是  如果有serciceName,则获取对应的值，如果没有serviceName,则新添一个，并且返回新添的那个值 ArrayList
                 List<URI> uris = metadata.computeIfAbsent(serviceName, k -> new ArrayList<>());
                 if(!uris.contains(uri)) {
                     uris.add(uri);
@@ -82,9 +85,11 @@ public class LocalFileNameService implements NameService {
                 logger.info(metadata.toString());
 
                 bytes = SerializeSupport.serialize(metadata);
-                fileChannel.truncate(bytes.length);
-                fileChannel.position(0L);
-                fileChannel.write(ByteBuffer.wrap(bytes));
+                fileChannel.truncate(bytes.length);//截断文件
+                fileChannel.position(0L);//随机读写 指定位置
+                fileChannel.write(ByteBuffer.wrap(bytes));//使用fileChannel写入
+//                FileChannel.force()方法将通道里尚未写入磁盘的数据强制写到磁盘上。出于性能方面的考虑，操作系统会将数据缓存在内存中，
+//                所以无法保证写入到FileChannel里的数据一定会即时写到磁盘上。要保证这一点，需要调用force()方法。
                 fileChannel.force(true);
             } finally {
                 lock.release();
