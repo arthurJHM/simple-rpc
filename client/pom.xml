@@ -19,7 +19,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>simple-rpc-framework</artifactId>
-        <groupId>com.github.liyue2008</groupId>
+        <groupId>com.github.simplerpc</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -28,12 +28,12 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.github.liyue2008</groupId>
+            <groupId>com.github.simplerpc</groupId>
             <artifactId>hello-service-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.github.liyue2008</groupId>
+            <groupId>com.github.simplerpc</groupId>
             <artifactId>rpc-api</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -47,7 +47,7 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.liyue2008</groupId>
+            <groupId>com.github.simplerpc</groupId>
             <artifactId>rpc-netty</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
@@ -86,7 +86,7 @@
                             <archive>
                                 <manifest>
                                     <mainClass>
-                                        com.github.liyue2008.rpc.client.Client
+                                        com.github.simplerpc.rpc.client.Client
                                     </mainClass>
                                 </manifest>
                             </archive>
