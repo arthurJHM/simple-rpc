@@ -1,1 +1,2 @@
 com.github.simplerpc.rpc.nameservice.LocalFileNameService
+com.github.simplerpc.rpc.nameservice.DataSourceNameService
