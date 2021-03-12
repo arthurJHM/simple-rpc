@@ -33,7 +33,7 @@ import java.util.Map;
  * @author LiYue
  * Date: 2019/9/23
  */
-//这部分代码是这个 RPC 框架服务端最核心的部分
+//这部分代码是这个 RPC 框架服务端最核心的部分,继承了俩个类  注册 RPC 服务和处理客户端 RPC 请求
 @Singleton
 public class RpcRequestHandler implements RequestHandler, ServiceProviderRegistry {
     private static final Logger logger = LoggerFactory.getLogger(RpcRequestHandler.class);

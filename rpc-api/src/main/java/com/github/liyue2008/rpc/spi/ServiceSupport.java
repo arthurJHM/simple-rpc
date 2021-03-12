@@ -47,7 +47,7 @@ public class ServiceSupport {
     @SuppressWarnings("unchecked")
     private static <S>  S singletonFilter(S service) {
 
-        if(service.getClass().isAnnotationPresent(Singleton.class)) {
+        if(service.getClass().isAnnotationPresent(Singleton.class)) {//PpcRequestHandler中的单例模式public @interface Singleton {，在这里处理
             String className = service.getClass().getCanonicalName();
             Object singletonInstance = singletonServices.putIfAbsent(className, service);//如果有过了，则返回第一次放入的这个值service  如果是第一次，则返回null
             return singletonInstance == null ? service : (S) singletonInstance;

@@ -91,7 +91,7 @@ public class NettyServer implements TransportServer {//netty 的一些操作
             @Override
             protected void initChannel(Channel channel) {
                 channel.pipeline()
-                        .addLast(new RequestDecoder())
+                        .addLast(new RequestDecoder())//编码器和解码器，为了将业务逻辑和基础编码解码分开
                         .addLast(new ResponseEncoder())
                         .addLast(new RequestInvocation(requestHandlerRegistry));
             }
