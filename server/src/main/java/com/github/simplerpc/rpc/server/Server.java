@@ -41,7 +41,8 @@ public class Server {
         try(RpcAccessPoint rpcAccessPoint = ServiceSupport.load(RpcAccessPoint.class);//通过SPI获得当前项目中的PpcAccessPointRPC框架对外提供的服务接口
             // 相当于是使用rpc的服务接口 功能包括有启动rpc框架进行监听  服务端注册服务  获得注册中心 客户端获得远程服务  实现类是NettyRpcAccessPoint
             Closeable ignored = rpcAccessPoint.startServer()) {
-            NameService nameService = rpcAccessPoint.getNameService(file.toURI());
+//            NameService nameService = rpcAccessPoint.getNameService(file.toURI());
+            NameService nameService = rpcAccessPoint.getNameService(getMysqlURI());
             assert nameService != null;
             logger.info("向RpcAccessPoint注册{}服务...", serviceName);
             URI uri = rpcAccessPoint.addServiceProvider(helloService, HelloService.class);//这里的向RPCaccessPoint注册，都只是放在了本地的hashmap中
@@ -52,6 +53,16 @@ public class Server {
             System.in.read();
             logger.info("Bye!");
         }
+    }
+
+    public static URI getMysqlURI(){
+        URI uri = URI.create("mysql:jdbc:mysql://127.0.0.1:3306/rpc?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT");
+        return uri;
+    }
+
+    public static URI getOracleURI(){
+        URI uri = URI.create("oracle:jdbc:oracle:thin:@127.0.0.1:1521:orcl");
+        return uri;
     }
 
 }
