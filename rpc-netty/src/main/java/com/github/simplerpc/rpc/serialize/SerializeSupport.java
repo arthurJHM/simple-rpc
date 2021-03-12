@@ -47,7 +47,8 @@ public class SerializeSupport {//用来控制序列化和反序列化的接口
     }
     @SuppressWarnings("unchecked")
     private static  <E> E parse(byte [] buffer, int offset, int length, Class<E> eClass) {
-        Object entry =  serializerMap.get(eClass).parse(buffer, offset, length);
+//        Object entry =  serializerMap.get(eClass).parse(buffer, offset, length);
+        Object entry =  serializerMap.getOrDefault(eClass,serializerMap.get(Object.class)).parse(buffer, offset, length);
         if (eClass.isAssignableFrom(entry.getClass())) {
             return (E) entry;
         } else {
@@ -71,8 +72,12 @@ public class SerializeSupport {//用来控制序列化和反序列化的接口
     }
 
     public static <E> byte [] serialize(E  entry) {//序列化
+        if (entry == null){
+            return null;
+        }
         @SuppressWarnings("unchecked")
-        Serializer<E> serializer = (Serializer<E>) serializerMap.get(entry.getClass());
+//        Serializer<E> serializer = (Serializer<E>) serializerMap.get(entry.getClass());
+        Serializer<E> serializer = (Serializer<E>) serializerMap.getOrDefault(entry.getClass(),serializerMap.get(Object.class));
         if(serializer == null) {
             throw new SerializeException(String.format("Unknown entry class type: %s", entry.getClass().toString()));
         }

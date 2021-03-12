@@ -16,6 +16,8 @@ package com.github.simplerpc.rpc.client;
 import com.github.simplerpc.rpc.NameService;
 import com.github.simplerpc.rpc.RpcAccessPoint;
 import com.github.simplerpc.rpc.hello.HelloService;
+import com.github.simplerpc.rpc.hello.entity.HelloRequest;
+import com.github.simplerpc.rpc.hello.entity.HelloResult;
 import com.github.simplerpc.rpc.spi.ServiceSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -45,17 +48,23 @@ public class Client {
             logger.info("找到服务{}，提供者: {}.", serviceName, uri);
             HelloService helloService = rpcAccessPoint.getRemoteService(uri, HelloService.class);
             logger.info("请求服务, name: {}...", name);
-            String response;
+            /*String response;
             while (true) {
                 response = helloService.hello(name + "" + new Date().getTime());
                 Thread.sleep(1000);
                 logger.info("收到响应: {}.", response);
-            }
+            }*/
+
+            HelloRequest request = new HelloRequest();
+            request.setParam(Arrays.asList("hello","world"));
+            request.setTimestamp(new Date().toString());
+            HelloResult response = helloService.helloMoreResult(request);
+            logger.info("收到响应: {}.", response.toString());
         }
 
     }
     public static URI getMysqlURI(){
-        URI uri = URI.create("mysql:jdbc:mysql://127.0.0.1:3306/rpc?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT");
+        URI uri = URI.create("mysql:jdbc:mysql://139.224.220.127:3306/rpc?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT");
         return uri;
     }
 

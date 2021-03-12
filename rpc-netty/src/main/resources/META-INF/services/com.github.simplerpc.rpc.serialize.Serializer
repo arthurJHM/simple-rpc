@@ -1,3 +1,5 @@
 com.github.simplerpc.rpc.serialize.impl.MetadataSerializer
 com.github.simplerpc.rpc.serialize.impl.StringSerializer
 com.github.simplerpc.rpc.serialize.impl.RpcRequestSerializer
+com.github.simplerpc.rpc.serialize.impl.ObjectArraysSerializer
+com.github.simplerpc.rpc.serialize.impl.ObjectSerializer

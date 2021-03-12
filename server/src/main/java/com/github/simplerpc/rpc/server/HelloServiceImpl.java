@@ -14,6 +14,8 @@
 package com.github.simplerpc.rpc.server;
 
 import com.github.simplerpc.rpc.hello.HelloService;
+import com.github.simplerpc.rpc.hello.entity.HelloRequest;
+import com.github.simplerpc.rpc.hello.entity.HelloResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,5 +31,30 @@ public class HelloServiceImpl implements HelloService {
         String ret = "Hello, " + name;
         logger.info("HelloServiceImpl返回: {}.", ret);
         return ret;
+    }
+
+    @Override
+    public HelloResult helloMoreResult(String name, String value) {
+
+        logger.info("HelloServiceImpl收到: {}.", name,value);
+        HelloResult result = new HelloResult();
+        result.setSuccess(true);
+        result.setResult("Success");
+        result.setResultCode("1");
+        logger.info("HelloServiceImpl返回: {}.", result.toString());
+
+        return result;
+    }
+
+    @Override
+    public HelloResult helloMoreResult(HelloRequest request) {
+
+        logger.info("HelloServiceImpl收到: {}.", request.toString());
+        HelloResult result = new HelloResult();
+        result.setSuccess(true);
+        result.setResult("Success");
+        result.setResultCode("1");
+        logger.info("HelloServiceImpl返回: {}.", result.toString());
+        return result;
     }
 }

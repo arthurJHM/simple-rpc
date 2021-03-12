@@ -56,7 +56,7 @@ public class Server {
     }
 
     public static URI getMysqlURI(){
-        URI uri = URI.create("mysql:jdbc:mysql://127.0.0.1:3306/rpc?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT");
+        URI uri = URI.create("mysql:jdbc:mysql://139.224.220.127:3306/rpc?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT");
         return uri;
     }
 
