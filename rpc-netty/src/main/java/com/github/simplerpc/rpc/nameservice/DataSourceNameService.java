@@ -165,6 +165,7 @@ public class DataSourceNameService implements NameService {
         String password = getProperties().getProperty(scheme+".password");
 
         try {
+            // TODO: 2021/3/13  可能不需要了？之后试试看 验证一下
             Class.forName(driver);// 注册(加载)驱动程序
             conn = DriverManager.getConnection(url, username, password);// 获取数据库连接
         } catch (Exception e) {
